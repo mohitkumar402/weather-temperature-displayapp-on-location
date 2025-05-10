@@ -52,6 +52,24 @@ async function saveCity(city, temp, description, icon) {
   
       const historyList = document.getElementById('historyList');
       historyList.innerHTML = '';
+      function updateSearchHistory() {
+  historyList.innerHTML = ''; // Clear existing
+  searchHistory.forEach(city => {
+    const box = document.createElement('div');
+    box.className = 'history-box';
+    box.innerText = city;
+    
+    // Optional: re-trigger search on click
+    box.onclick = () => {
+      console.log(`You clicked ${city}`);
+      // fetchWeather(city); // If you have this
+    };
+
+    historyList.appendChild(box);
+  });
+}
+
+updateSearchHistory();
   
       cities.forEach((cityObj) => {
         const cityDiv = document.createElement('div');
@@ -92,7 +110,40 @@ function showError(message) {
 }
 
 // Load search history when page loads
-fetchHistory();
+async function fetchHistory() {
+  try {
+    const response = await fetch(`${backendUrl}/getHistory`);
+    const cities = await response.json();
+
+    const historyList = document.getElementById('historyList');
+    historyList.innerHTML = ''; // Clear old entries
+
+    cities.forEach((cityObj) => {
+      const cityDiv = document.createElement('div');
+      cityDiv.classList.add('history-box');
+      cityDiv.style.cursor = 'pointer';
+
+      cityDiv.innerHTML = `
+        <div><strong>${cityObj.city}</strong></div>
+        <div>${cityObj.temp} °C</div>
+        <div>${cityObj.description}</div>
+        <img src="https://openweathermap.org/img/wn/${cityObj.icon}.png" 
+             alt="icon" 
+             style="vertical-align:middle; width:30px; height:30px;">
+      `;
+
+      cityDiv.addEventListener('click', () => {
+        cityInput.value = cityObj.city;
+        searchBtn.click();
+      });
+
+      historyList.appendChild(cityDiv);
+    });
+  } catch (error) {
+    console.error('Failed to fetch history:', error);
+  }
+}
+// Load search history when page loads
 
 // Initialize particles.js
 particlesJS("particles-js", {

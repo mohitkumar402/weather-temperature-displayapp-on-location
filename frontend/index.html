@@ -5,15 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Weather App</title>
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> <!-- Particle.js -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> <!--Particle.js  for background line particles-->
 </head>
 <body>
 
   <!-- Particle Background -->
   <div id="particles-js"></div>
+  
+  
 
   <div class="container">
     <h1>Weather App</h1>
+    <div class="scrolling-text">
+  <div class="scrolling-inner">
+    ☁️ Welcome to the Weather App — Get Real-Time Weather Updates Instantly! 🌤️
+  </div>
+</div>
+
 
     <div class="input-section">
       <input type="text" id="cityInput" placeholder="Enter city name">
@@ -27,7 +35,7 @@
       <h2>Search History</h2>
       <div id="historyList" class="history-list"></div>
     </div>
-    
+    <div id="historybox" class="history-box"></div>
   </div>
 
   <script src="script.js"></script>
